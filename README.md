@@ -38,3 +38,6 @@ Also, the Rust code is A LOT easier to read than the C code.
 | `hexchk_c` | 3804432B | 208.571s |
 | `hexdump` | 3804432B | 35.036s |
 | `xxd` | 3804432B | 32.519s |
+
+![image](https://github.com/werdl/hexchk/assets/116349156/3bdbb81b-1079-4230-af24-31af204b64fb)
+
