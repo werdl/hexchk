@@ -38,3 +38,6 @@ Also, the Rust code is A LOT easier to read than the C code.
 | `hexchk_c` | 3804432B | 208.571s |
 | `hexdump` | 3804432B | 35.036s |
 | `xxd` | 3804432B | 32.519s |
+
+## Advantages of using colors
+Colors are included because, when one glances down the dump, you can easily see by way of the color coding system, where only ASCII chars are colored-in, and where any others are not, the sections of the dump that you are in.
