@@ -2,7 +2,8 @@
 // for comparison purposes.
 
 #include <stdio.h>
-#include <stdint.h>
+
+typedef unsigned char uint8_t;
 
 char * hex_to_color(uint8_t hex, uint8_t min, uint8_t max) {
     if (hex < min || hex > max) {
@@ -25,9 +26,11 @@ int main(int argc, char ** argv) {
     FILE * fp = fopen(file, "r");
 
     if (fp == NULL) {
-        fprintf(stderr, "Error: could not open file %s\n", file);
+        printf("Error: could not open file %s\n", file);
         return 1;
     }
+
+    int mode = argc > 2 ? 0 : 1;
 
     int c;
 
@@ -38,38 +41,35 @@ int main(int argc, char ** argv) {
         size_t bytes_read = fread(buffer, sizeof(uint8_t), 16, fp);
 
         if (bytes_read == 0) {
+            printf("|");
             break;
         } else if (bytes_read > 0) {
-            printf("%08x  ", offset);
+            printf("|\x1b[0m\n%08x  ", offset);
             offset += bytes_read;
-
             for (int i = 0; i < 16; i++) {
                 if (i < bytes_read) {
-                    printf("%s%02x ", hex_to_color(buffer[i], 0x20, 0x7e), buffer[i]);
+                    printf("%s%02x ", mode?"":hex_to_color(buffer[i], 0x20, 0x7e), buffer[i]);
                 } else {
                     printf("   ");
                 }
-            }
+            } 
 
-            printf(" ");
+            printf(" |");
 
             for (int i = 0; i < 16; i++) {
                 if (i < bytes_read) {
                     uint8_t c = buffer[i];
-                    if (c >= 0x20 && c <= 0x7e) {
-                        printf("%s%c", hex_to_color(c, 0x20, 0x7e), c);
-                    } else {
-                        printf("\x1b[0m.");
-                    }
+                    printf("%s%c", mode?"":hex_to_color(buffer[i], 0x20, 0x7e), c>=0x20&&c<=0x7e?c:'.');
                 } else {
                     printf(" ");
                 }
             }
 
-            printf("%s\n", "\x1b[0m");
         } else {
-            fprintf(stderr, "Error: could not read from file\n");
+            printf("Error: could not read file\n");
             return 1;
         }
     }
+
+    printf("\x1b[0m\n");
 }
