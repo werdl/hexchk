@@ -13,9 +13,9 @@ char * hex_to_color(uint8_t hex, uint8_t min, uint8_t max) {
 
     int rgb = hex * (16581375 / (max - min));
 
-    int r = (rgb >> 16); // we can omit the mask here, since we know the value is in the range
-    int g = (rgb >> 8);
-    int b = rgb;
+    uint8_t r = (rgb >> 16); // we can omit the mask here, since we know the value is in the range
+    uint8_t g = (rgb >> 8);
+    uint8_t b = rgb;
 
     char color[16];
     sprintf(color, "\x1b[38;2;%d;%d;%dm", r, g, b);
@@ -23,28 +23,27 @@ char * hex_to_color(uint8_t hex, uint8_t min, uint8_t max) {
 }
 
 int main(int argc, char ** argv) {
-    char * file = argc > 1 ? argv[1] : "/dev/stdin";
-    FILE * fp = fopen(file, "r");
+    FILE * fp = fopen(argc > 1 ? argv[1] : "/dev/stdin", "r");
 
     if (!fp) {
-        printf("Error: file open \n");
+        printf("Error:fopen\n");
         return 1;
     }
 
-    int mode = argc > 2 ? 0 : 1;
+    uint8_t mode = argc > 2 ? 0 : 1;
 
     uint8_t buffer[16];
     int offset = 0;
 
     while (1) {
-        size_t bytes_read = fread(buffer, 1, 16, fp);
+        size_t bytes_read = fread(buffer, 1u, 16u, fp);
 
         if (bytes_read == 0) {
             break;
         } else if (bytes_read > 0) {
             printf("%08x  ", offset);
             offset += bytes_read;
-            for (int i = 0; i < 16; i++) {
+            for (uint8_t i = 0; i < 16; i++) {
                 if (i < bytes_read) {
                     printf("%s%02x ", mode?"":hex_to_color(buffer[i], 0x20, 0x7e), buffer[i]);
                 } else {
@@ -56,10 +55,10 @@ int main(int argc, char ** argv) {
 
             uint8_t c;
 
-            for (int i = 0; i < 16; i++) {
+            for (uint8_t i = 0; i < 16; i++) {
                 if (i < bytes_read) {
                     c = buffer[i];
-                    printf("%s%c", mode?"":hex_to_color(buffer[i], 0x20, 0x7e), c>=0x20&&c<=0x7e?c:'.');
+                    printf("%s%c", mode?"":hex_to_color(buffer[i], 0x20u, 0x7eu), c>=0x20u&&c<=0x7eu?c:'.');
                 } else {
                     printf(" ");
                 }
@@ -68,7 +67,7 @@ int main(int argc, char ** argv) {
             printf("\x1b[0m|\n");
 
         } else {
-            printf("Error: file read");
+            printf("Error:fread\n");
             return 1;
         }
     }

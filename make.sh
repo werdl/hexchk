@@ -24,5 +24,6 @@ tcc -s -fno-stack-protector -ffunction-sections -fdata-sections -fno-unwind-tabl
 
 strip -s hexchk_c
 
+
 ./hexchk_c ascii.txt -c
 ls -l hexchk_c
