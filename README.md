@@ -5,6 +5,9 @@
 - `rustup`
 - `upx`
 
+![Demo](demo.gif)
+> Note: The demo is running at 4x speed.
+
 ## What is this?
 This is your standard hex viewer, with some colors for fun. The real kicker, though, is the binary size. In Rust, I have certainly noticed that by default, the binaries are pretty chunky. So, a lot of optimization has been done to get the binary size down to a minimum. The final binary size is 23572 bytes. This is better than the standard `hexdump` utility, which (on my system), stands at 59720 bytes. Admittedly, `xxd` is slightly smaller at 18648 bytes, but it doesn't have the pretty colors.
 
