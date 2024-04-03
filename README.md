@@ -44,3 +44,6 @@ Also, the Rust code is A LOT easier to read than the C code.
 
 ## Advantages of using colors
 Colors are included because, when one glances down the dump, you can easily see by way of the color coding system, where only ASCII chars are colored-in, and where any others are not, the sections of the dump that you are in.
+
+## Word of warning
+`hexchk.c` MUST be compiled with `tcc`, (`gcc` fails).

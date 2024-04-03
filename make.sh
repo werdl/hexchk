@@ -16,11 +16,13 @@ upx -9 $LOCATION
 
 
 # run
-$LOCATION src/main.rs
+$LOCATION ascii.txt
 ls -l $LOCATION
 
 # now for the C
-tcc -s -fno-stack-protector -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-math-errno -fno-unroll-loops -fmerge-all-constants -fno-ident -o hexchk_c hexchk.c
+tcc -s -fno-stack-protector -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-math-errno -fno-unroll-loops -fmerge-all-constants -fno-ident -flto -o hexchk_c hexchk.c
 
-./hexchk_c src/main.rs
+strip -s hexchk_c
+
+./hexchk_c ascii.txt -c
 ls -l hexchk_c

@@ -52,7 +52,7 @@ fn main() -> Result<(), std::io::Error> {
                     }
                 }
 
-                print!(" ");
+                print!(" \x1b[0m|");
 
                 for i in 0..16 {
                     if i < n {
@@ -68,7 +68,7 @@ fn main() -> Result<(), std::io::Error> {
                     }
                 }
 
-                println!("{}", "\x1b[0m");
+                println!("{}|", "\x1b[0m");
             }
             Err(e) => {
                 return Err(e);
